@@ -1,0 +1,33 @@
+{% macro duration_dial(title, weeks, angle, active) %}
+<section class="dial-card{{ '' if active and weeks is not none else ' dial-inactive' }}" aria-label="{{ title }}: {{ 'unknown' if weeks is none else '%g weeks'|format(weeks) }}{{ '' if active else '; dial inactive because plan is inactive' }}">
+  <h2>{{ title }}</h2>
+  <div class="dial-face" aria-hidden="true">
+    <div class="dial-arc duration-arc"></div>
+    {% if active and angle is not none %}<div class="dial-needle" style="--needle-angle: {{ angle }}deg"></div><div class="dial-hub"></div>{% endif %}
+  </div>
+  <div class="dial-ticks duration-ticks"><span>0</span><span>6</span><span>8</span><span>12+</span></div>
+  <p class="dial-value">{{ 'Unknown' if weeks is none else '%g weeks'|format(weeks) }}</p>
+  <p class="dial-status">{% if weeks is none %}Duration unavailable{% elif weeks < 6 %}Below 6 weeks{% elif weeks <= 8 %}6–8 weeks{% else %}More than 8 weeks{% endif %}</p>
+</section>
+{% endmacro %}
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Human review · Fictional Demo</title><link rel="stylesheet" href="/static/style.css"></head><body>
+<main class="card review-card"><p class="eyebrow">HUMAN REVIEW REQUIRED</p><h1>Proposed: {{ pending.recommendation }}</h1>
+<p class="intro">{{ pending.reason }}</p>
+<div class="dial-grid" aria-label="Decision facts">
+  <section class="dial-card" aria-label="Plan: {{ 'active' if pending.plan_active else 'inactive' }}">
+    <h2>Plan status</h2>
+    <div class="dial-face" aria-hidden="true"><div class="dial-arc plan-arc"></div><div class="dial-needle" style="--needle-angle: {{ 45 if pending.plan_active else -45 }}deg"></div><div class="dial-hub"></div></div>
+    <div class="dial-ticks plan-ticks"><span>Inactive</span><span>Active</span></div>
+    <p class="dial-value">{{ 'Active' if pending.plan_active else 'Inactive' }}</p>
+    <p class="dial-status">Patient plan</p>
+  </section>
+  {{ duration_dial('Back pain', pending.pain_weeks, pain_angle, pending.plan_active) }}
+  {{ duration_dial('Physiotherapy', pending.physio_weeks, physio_angle, pending.plan_active) }}
+</div>
+<p class="question">{{ pending.question }}</p>
+<form action="/review" method="post" class="actions"><input type="hidden" name="thread_id" value="{{ thread_id }}">
+<button type="submit" name="answer" value="yes">Yes, accept</button>
+<button type="submit" name="answer" value="no" class="secondary">No, reject</button></form>
+<a href="/">Start another request</a></main></body></html>

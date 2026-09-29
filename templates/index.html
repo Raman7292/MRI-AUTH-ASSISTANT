@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MRI Review · Fictional Demo</title><link rel="stylesheet" href="/static/style.css"></head>
+<body><main class="card"><p class="eyebrow">SYNTHETIC DATA DEMO</p><h1>MRI prior authorization</h1>
+<p class="intro">Enter a fictional patient ID and a clinical note. The assistant proposes a decision for a human to review.</p>
+<form action="/propose" method="post"><label for="patient_id">Patient ID</label>
+<select name="patient_id" id="patient_id"><option>P001</option><option>P002</option><option>P003</option></select>
+<label for="note">Clinical note</label><textarea name="note" id="note" rows="8" required></textarea>
+<button type="submit">Review request <span aria-hidden="true">→</span></button></form>
+<p class="hint">Choosing a patient fills a sample note. You can edit it before submitting.</p></main>
+<script id="samples" type="application/json">{{ samples|tojson }}</script>
+<script>const samples=JSON.parse(document.querySelector('#samples').textContent);const id=document.querySelector('#patient_id');const note=document.querySelector('#note');const fill=()=>{note.value=samples[id.value]};id.addEventListener('change',fill);fill();</script>
+</body></html>
+

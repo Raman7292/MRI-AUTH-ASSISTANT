@@ -1,0 +1,8 @@
+{
+  "title": "Fictional lumbar MRI prior authorization rule",
+  "pain_threshold_weeks": 6,
+  "physio_threshold_weeks": 6,
+  "evaluation_order": ["inactive_plan", "short_duration", "missing_duration", "approve"],
+  "text": "In order: inactive plan -> Deny; explicitly established back pain under 6 weeks or physiotherapy under 6 weeks -> Deny; missing pain or physiotherapy duration -> Need more information; otherwise -> Approve. Exactly 6 weeks qualifies. No physiotherapy tried means 0 weeks; unmentioned physiotherapy or physiotherapy mentioned without duration means null. Other treatment is not physiotherapy."
+}
+

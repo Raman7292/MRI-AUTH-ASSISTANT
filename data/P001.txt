@@ -1,0 +1,2 @@
+Synthetic clinical note for patient P001. Lumbar back pain has persisted for 10 weeks. The patient completed 8 weeks of physiotherapy with persistent symptoms. The clinician requests a lumbar MRI.
+
